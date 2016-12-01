@@ -1,27 +1,24 @@
-using System;
-
-using UIKit;
+using MvvmCross.Binding.BindingContext;
+using MvvmCross.iOS.Views;
+using TipCalc.Core.ViewModels;
 
 namespace TipCalc.UI.iOS.Views
 {
-    public partial class TipView : UIViewController
+    //Extendemos essa classe para ligar a viewmodel
+    public partial class TipView : MvxViewController<TipViewModel>
     {
         public TipView() : base("TipView", null)
         {
         }
 
-        public override void DidReceiveMemoryWarning()
-        {
-            base.DidReceiveMemoryWarning();
-
-            // Release any cached data, images, etc that aren't in use.
-        }
-
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            // Perform any additional setup after loading the view, typically from a nib.
+            //Esses bindings fazem mesma coisa do axml no android
+            //Um TipLabel(nome do treco) foi ligado ao Tip da VM
+            this.CreateBinding(TipLabel).To((TipViewModel vm) => vm.Tip).Apply();
+            this.CreateBinding(SubTotalTextField).To((TipViewModel vm) => vm.Generosity).Apply();
+            this.CreateBinding(GenerositySlider).To((TipViewModel vm) => vm.Generosity).Apply();
         }
     }
 }
